@@ -34,7 +34,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             if ($user->save()) {
-                return $this->sendResponse($user->toArray(), __('messages.user_update_success_messages'), 202);
+                return $this->sendResponse($user->toApi(), __('messages.user_update_success_messages'), 202);
             }
         } catch (Exception $e) {
             return $this->sendResponse(__('messages.something_went_wrong'), [], 500);

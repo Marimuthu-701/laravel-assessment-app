@@ -35,8 +35,8 @@ class AuthController extends Controller
             }
 
             $user = User::where('email', $request->email)->first();
-            $user->token = $user->accessToken($request->email);
-            $data = $user;
+            $data = $user->toApi();
+            $data['token'] = $user->accessToken($request->email);
 
             return $this->sendResponse($data, __('messages.login_success_message'), 200);
         } catch (Exception $e) {
@@ -66,8 +66,8 @@ class AuthController extends Controller
             $data = $request->except('password_confirmation');
             $data['password'] = Hash::make($data['password']);
             $user = User::create($data);
-            $user->token = $user->accessToken($request->email);
-            $data = $user;
+            $data = $user->toApi();
+            $data['token'] = $user->accessToken($request->email);
 
             return $this->sendResponse($data, __('messages.registration_success'), 201);
         } catch (Exception $e) {

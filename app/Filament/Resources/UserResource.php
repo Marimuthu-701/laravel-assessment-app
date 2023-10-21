@@ -26,8 +26,8 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required(),
-                TextInput::make('email')->email()->required(),
-                TextInput::make('password')->required()->visibleOn('create'),
+                TextInput::make('email')->email()->unique(table: User::class)->required(),
+                TextInput::make('password')->password()->required()->visibleOn('create'),
             ]);
     }
 
@@ -37,6 +37,7 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),
+                TextColumn::make('created_at')->dateTime(config('app.datetime_format')),
             ])
             ->filters([
                 //

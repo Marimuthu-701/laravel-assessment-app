@@ -18,6 +18,10 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\Stats;
+use Filament\Navigation\NavigationBuilder;
+use App\Filament\Resources\UserResource;
+use App\Filament\Resources\NewsResource;
+use Filament\Pages\Dashboard;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -55,6 +59,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->items([
+                    ...Dashboard::getNavigationItems(),
+                    ...UserResource::getNavigationItems(),
+                    ...NewsResource::getNavigationItems(),
+                ]);
+            });
     }
 }

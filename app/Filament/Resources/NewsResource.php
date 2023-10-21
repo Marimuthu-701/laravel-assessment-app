@@ -40,7 +40,7 @@ class NewsResource extends Resource
             ->columns([
                 TextColumn::make('author'),
                 TextColumn::make('title'),
-                TextColumn::make('published_at'),
+                TextColumn::make('published_at')->dateTime(config('app.datetime_format')),
             ])
             ->filters([
                 //

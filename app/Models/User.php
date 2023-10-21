@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -49,8 +50,25 @@ class User extends Authenticatable
      * @param  string  $name (optional)
      * @return <string>
      */
-    public function accessToken($name = null)
+    public function accessToken($name = null) : string
     {
         return $this->createToken($name)->plainTextToken;
+    }
+
+    /**
+     * Get user model details
+     * 
+     * @return <array>
+     */
+    public function toApi() : array
+    {
+        return [
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
+            'created_at' => Carbon::parse($this->created_at)->format(config('app.datetime_format')),
+            'updated_at' => Carbon::parse($this->updated_at)->format(config('app.datetime_format')),
+        ];
     }
 }

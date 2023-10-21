@@ -13,7 +13,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::paginate();
+        $news = News::paginate()->through(fn ($news) => $news->toApi());
 
         return $this->sendResponse($news, 'Top news list');
     }
