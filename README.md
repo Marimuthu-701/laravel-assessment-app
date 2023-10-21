@@ -8,19 +8,18 @@
  
 Follow the below steps to install
 
-1. GET API key from [https://newsapi.org/](https://newsapi.org/) And that in env file
+1. GET API key from [https://newsapi.org/](https://newsapi.org/)  this url
+
+2. Add below keys to .env file in root directory
    NEWS_API_KEY=<api key>
    NEWS_API_ENDPOINT=https://newsapi.org/v2/top-headlines
+   API_SECRET_KEY=5e54a8a6-upex-8335-ue6l-c25446a60794
    
-
 3. clone the repo
 
 6. Run `composer install`
 
-7. Rename .env.example to .env and update the details as per you host and DB
-
-8. Add API_SECRET_KEY variable in .env file like this
-   API_SECRET_KEY=5e54a8a6-upex-8335-ue6l-c25446a60794
+7. Rename .env.example to .env and update the details as per you host and DB   
 
 4. Run the command `php artisan migrate`
 
