@@ -42,8 +42,8 @@ class AuthenticationTest extends TestCase
     public function testLoginSuccess()
     {
         $loginCredencial = [
-            'email' => 'marimuthu.m@oclocksolutions.com',
-            'password' => 'muthu123',
+            "email" => "marimuthu.m@oclocksolutions.com",
+            "password" => "qwerty@2023!",
         ];
         $this->withHeader('x-api-key', env('API_SECRET_KEY'))->json('POST', 'api/login', $loginCredencial, ['Accept' => 'application/json'])
             ->assertStatus(200)
