@@ -199,5 +199,5 @@ return [
         'api' => env('API_PREFIX', 'api'),
     ],
 
-    'datetime_format' => 'd/m/Y H:i A'
+    'datetime_format' => 'd/m/Y H:i A',
 ];

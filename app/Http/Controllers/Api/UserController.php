@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 
 class UserController extends Controller
@@ -26,6 +27,8 @@ class UserController extends Controller
             $rules = [
                 'email' => ['required', 'email', 'unique:users,email,'.$user_id],
                 'name' => ['required', 'string'],
+                'password' => ['nullable', 'confirmed', 'min:6'],
+                'password_confirmation' => ['nullable', 'min:6'],
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -33,6 +36,9 @@ class UserController extends Controller
             }
             $user->name = $request->name;
             $user->email = $request->email;
+            if ($request->password) {
+                $user->password = Hash::make($request->password);
+            }
             if ($user->save()) {
                 return $this->sendResponse($user->toApi(), __('messages.user_update_success_messages'), 202);
             }

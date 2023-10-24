@@ -3,19 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
-use App\Filament\Resources\NewsResource\RelationManagers;
 use App\Models\News;
-use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Table;
 
 class NewsResource extends Resource
 {
@@ -39,7 +35,7 @@ class NewsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('author'),
-                TextColumn::make('title'),
+                TextColumn::make('title')->wrap(),
                 TextColumn::make('published_at')->dateTime(config('app.datetime_format')),
             ])
             ->filters([
@@ -54,14 +50,14 @@ class NewsResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -69,5 +65,5 @@ class NewsResource extends Resource
             'create' => Pages\CreateNews::route('/create'),
             'edit' => Pages\EditNews::route('/{record}/edit'),
         ];
-    }    
+    }
 }

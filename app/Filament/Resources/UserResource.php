@@ -3,17 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Hash;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
@@ -25,9 +23,22 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('email')->email()->unique(table: User::class)->required(),
-                TextInput::make('password')->password()->required()->visibleOn('create'),
+                TextInput::make('name')
+                    ->required(),
+                TextInput::make('email')
+                    ->email()
+                    ->unique(ignoreRecord: true)
+                    ->required(),
+                TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))->confirmed()
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->helperText(fn (string $operation): string => $operation === 'create' ? '' : 'Leave it blank. If you keep the old password')
+                    ->required(fn (string $operation): bool => $operation === 'create'),
+                TextInput::make('password_confirmation')
+                    ->type('password')
+                    ->required(fn (string $operation): bool => $operation === 'create'),
             ]);
     }
 
@@ -51,14 +62,14 @@ class UserResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [

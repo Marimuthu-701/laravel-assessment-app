@@ -61,7 +61,7 @@ class AuthController extends Controller
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
-                return $this->sendErrorResponse($validator->errors()->toArray(),[], 422);
+                return $this->sendErrorResponse($validator->errors()->toArray(), [], 422);
             }
             $data = $request->except('password_confirmation');
             $data['password'] = Hash::make($data['password']);

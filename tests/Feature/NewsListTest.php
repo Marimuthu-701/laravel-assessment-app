@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\User;
+use Tests\TestCase;
 
 class NewsListTest extends TestCase
 {
@@ -15,9 +13,9 @@ class NewsListTest extends TestCase
     public function testWithoutAuthorization()
     {
         $this->withHeader('x-api-key', env('API_SECRET_KEY'))->json('GET', 'api/news', ['Accept' => 'application/json'])
-             ->assertStatus(401)
-             ->assertJson([
-                "message"=> "Unauthenticated."
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.',
             ]);
     }
 
@@ -30,29 +28,29 @@ class NewsListTest extends TestCase
         $user = User::factory()->create();
         $token = $user->accessToken('api-token');
         $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'x-api-key'  => env('API_SECRET_KEY')
+            'Authorization' => 'Bearer '.$token,
+            'x-api-key' => env('API_SECRET_KEY'),
         ])->json('GET', 'api/news', ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJsonStructure([
-                "data"=>[
-                    "current_page",
-                    "data"=> [
+                'data' => [
+                    'current_page',
+                    'data' => [
                         [
-                            "id",
-                            "author",
-                            "title",
-                            "description",
-                            "content",
-                            "url",
-                            "url_to_image",
-                            "published_at",
-                            "created_at",
-                            "updated_at"
-                        ]
-                    ]
+                            'id',
+                            'author',
+                            'title',
+                            'description',
+                            'content',
+                            'url',
+                            'url_to_image',
+                            'published_at',
+                            'created_at',
+                            'updated_at',
+                        ],
+                    ],
                 ],
-                "message"
+                'message',
             ]);
     }
 }
